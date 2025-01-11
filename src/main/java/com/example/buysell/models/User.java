@@ -36,11 +36,6 @@ public class User implements UserDetails {
     mappedBy = "user")
     private List<Product> products = new ArrayList<>();
 
-    public void addProductToUser(Product product) {
-        product.setUser(this);
-        products.add(product);
-    }
-
     public boolean isAdmin() {
         return roles.contains(Role.ROLE_ADMIN);
     }

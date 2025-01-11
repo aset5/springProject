@@ -1,14 +1,23 @@
 package com.example.buysell.controllers;
 
+import com.example.buysell.dto.product.ProductCreateRequestDto;
+import com.example.buysell.dto.product.ProductDto;
 import com.example.buysell.models.Product;
 import com.example.buysell.models.User;
 import com.example.buysell.services.ProductService;
+import com.example.buysell.services.UserService;
+import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,10 +26,11 @@ import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("products")
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping("/")
+    @GetMapping
     public String products(@RequestParam(name = "searchWord", required = false) String title, Principal principal, Model model) {
         model.addAttribute("products", productService.listProducts(title));
         model.addAttribute("user", productService.getUserByPrincipal(principal));
@@ -28,7 +38,7 @@ public class ProductController {
         return "products";
     }
 
-    @GetMapping("/product/{id}")
+    @GetMapping("{id}")
     public String productInfo(@PathVariable Long id, Model model, Principal principal) {
         Product product = productService.getProductById(id);
         model.addAttribute("user", productService.getUserByPrincipal(principal));
@@ -38,20 +48,25 @@ public class ProductController {
         return "product-info";
     }
 
-    @PostMapping("/product/create")
-    public String createProduct(@RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2,
-                                @RequestParam("file3") MultipartFile file3, Product product, Principal principal) throws IOException {
-        productService.saveProduct(principal, product, file1, file2, file3);
+    @PostMapping
+    public String createProduct(@RequestParam("file1") MultipartFile file1,
+                                @RequestParam("file2") MultipartFile file2,
+                                @RequestParam("file3") MultipartFile file3,
+                                @RequestHeader long userId,
+                                @RequestBody @Validated ProductCreateRequestDto product,
+                                Model model) throws IOException {
+        var createdProduct = productService.saveProduct(userId, product, file1, file2, file3);
+        model.addAttribute("product", createdProduct);
         return "redirect:/my/products";
     }
 
-    @PostMapping("/product/delete/{id}")
+    @DeleteMapping("{id}")
     public String deleteProduct(@PathVariable Long id, Principal principal) {
         productService.deleteProduct(productService.getUserByPrincipal(principal), id);
         return "redirect:/my/products";
     }
 
-    @GetMapping("/my/products")
+    @GetMapping("{userId}")
     public String userProducts(Principal principal, Model model) {
         User user = productService.getUserByPrincipal(principal);
         model.addAttribute("user", user);
