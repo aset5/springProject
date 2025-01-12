@@ -1,6 +1,5 @@
 package com.example.buysell.mapper.product;
 
-import com.example.buysell.controllers.ProductController;
 import com.example.buysell.dto.product.ProductCreateRequestDto;
 import com.example.buysell.dto.product.ProductDto;
 import com.example.buysell.models.Product;
