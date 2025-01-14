@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/product", true)  // Перенаправление после успешного логина
                 .permitAll()
                 .and()
                 .logout()

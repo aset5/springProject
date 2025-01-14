@@ -1,10 +1,8 @@
 package com.example.buysell.services;
 
-import com.example.buysell.controllers.ProductController;
 import com.example.buysell.dto.product.ProductCreateRequestDto;
 import com.example.buysell.dto.product.ProductDto;
 import com.example.buysell.mapper.product.ProductMapper;
-import com.example.buysell.models.Image;
 import com.example.buysell.models.Product;
 import com.example.buysell.models.User;
 import com.example.buysell.repositories.ProductRepository;
