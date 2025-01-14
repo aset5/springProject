@@ -1,5 +1,7 @@
 package com.example.buysell.models;
 
+
+
 import javax.persistence.*;
 
 @Entity

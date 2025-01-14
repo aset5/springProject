@@ -14,7 +14,7 @@
     <name>BuySell Application</name>
     <description>A simple clone of Avito platform</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
     </properties>
 
     <dependencies>
