@@ -34,15 +34,6 @@ public class ProductController {
         return "products";
     }
 
-    @GetMapping("/my/products")
-    public String myProducts(Principal principal, Model model) {
-        User user = productService.getUserByPrincipal(principal);
-        model.addAttribute("user", user);
-        model.addAttribute("products", user.getProducts());
-        return "my-products";
-    }
-
-
     @GetMapping("/info/{id}")
     public String productInfo(@PathVariable Long id, Model model, Principal principal) {
         Product product = productService.getProductById(id);

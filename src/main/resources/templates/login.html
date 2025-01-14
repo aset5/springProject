@@ -1,63 +1,64 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultarq.net/nz/thymeleaf/layout"
+      layout:decorate="main_layout.html">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="'Авторизация - ' + ${user?.name ?: 'Гость'}">Авторизация</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="${pageTitle}">BUYSELL</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
           crossorigin="anonymous">
 </head>
+
 <body>
-<div class="container mt-5">
-    <!-- Заголовок с приветствием -->
-    <h1 class="text-center" th:text="${user != null ? 'Добро пожаловать, ' + user.name : 'Авторизация'}">Авторизация</h1>
-    <hr>
-
-    <!-- Форма авторизации -->
-    <form action="/login" method="post">
-        <!-- Электронная почта -->
-        <div class="form-group">
-            <label for="email">Электронная почта</label>
-            <input type="email"
-                   class="form-control"
-                   th:classappend="${param.error} ? 'is-invalid'"
-                   id="email"
-                   name="username"
-                   placeholder="Введите вашу почту"
-                   th:value="${param.username ?: ''}">
-            <div class="invalid-feedback" th:if="${param.error}">
-                Неверная электронная почта
+<div layout:fragment="siteContent">
+    <div class="container mt-5">
+        <h1 class="text-center">Авторизация</h1>
+        <hr>
+        <form action="/login" method="post">
+            <!-- Электронная почта -->
+            <div class="form-group">
+                <label for="email">Электронная почта</label>
+                <input type="email"
+                       class="form-control"
+                       th:classappend="${param.error} ? 'is-invalid'"
+                       id="email"
+                       name="username"
+                       placeholder="Введите вашу почту">
+                <div class="invalid-feedback" th:if="${param.error}">
+                    Неверная электронная почта
+                </div>
             </div>
-        </div>
 
-        <!-- Пароль -->
-        <div class="form-group">
-            <label for="password">Пароль</label>
-            <input type="password"
-                   class="form-control"
-                   th:classappend="${param.error} ? 'is-invalid'"
-                   id="password"
-                   name="password"
-                   placeholder="Введите ваш пароль">
-            <div class="invalid-feedback" th:if="${param.error}">
-                Неверный пароль
+            <!-- Пароль -->
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password"
+                       class="form-control"
+                       th:classappend="${param.error} ? 'is-invalid'"
+                       id="password"
+                       name="password"
+                       placeholder="Введите ваш пароль">
+                <div class="invalid-feedback" th:if="${param.error}">
+                    Неверный пароль
+                </div>
             </div>
-        </div>
 
-        <!-- CSRF токен -->
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+            <!-- CSRF токен -->
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
 
-        <!-- Кнопка Войти -->
-        <button type="submit" class="btn btn-dark btn-block">Войти</button>
-    </form>
-    <hr>
-
-    <!-- Регистрация -->
-    <h2>Нет аккаунта BUYSELL? <a th:href="@{/registration}">Зарегистрируйся!</a></h2>
+            <!-- Кнопка Войти -->
+            <button type="submit" class="btn btn-dark btn-block">Войти</button>
+        </form>
+        <hr>
+        <h2>Нет аккаунта BUYSELL? <a th:href="@{/registration}">Зарегистрируйся!</a></h2>
+    </div>
 </div>
 
+<!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

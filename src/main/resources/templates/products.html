@@ -1,72 +1,64 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Товары</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+      xmlns:layout="http://www.ultarq.net/nz/thymeleaf/layout" layout:decorate="main_layout.html">
+<div layout:fragment="siteContent">
+    <div class="container mt-5">
+        <h1 style="text-align: center">Поиск товаров</h1>
+        <hr>
+        <form method="get" action="/">
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="searchCity">Город</label>
+                    <select id="searchCity" class="form-control" name="searchCity">
+                        <option value="">Город не выбран</option>
+                        <option value="Москва" th:selected="${searchCity == 'Москва'}">Москва</option>
+                        <option value="Красноярск" th:selected="${searchCity == 'Красноярск'}">Красноярск</option>
+                        <option value="Казань" th:selected="${searchCity == 'Казань'}">Казань</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-10">
+                    <label for="searchWord">Поиск по объявлениям</label>
+                    <input type="text" name="searchWord" class="form-control" id="searchWord"
+                           th:value="${searchWord}">
+                </div>
+                <button style="width: 100%" type="submit" class="btn btn-dark">Поиск</button>
+            </div>
+        </form>
+        <hr>
+
+        <!-- Product Cards -->
+        <div class="card-columns">
+            <div th:each="product : ${products}">
+                <a th:href="@{/product/{id}(id=${product.id})}" class="product-link">
+                    <div class="card text-white bg-dark my-3 product">
+                        <img th:src="@{/images/{id}(id=${product.previewImageId})}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${product.title}"></h5>
+                            <p class="card-text" th:text="${product.price} + ' Тг'"></p>
+                        </div>
+                        <div class="card-footer" th:text="${product.city}"></div>
+                    </div>
+                </a>
+            </div>
+            <div th:if="${#lists.isEmpty(products)}">
+                <h1 style="text-align: center">Не найдено</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
           crossorigin="anonymous">
-</head>
-<body>
-<!-- Вставка навбара -->
-<div th:insert="navBar.html"></div>
 
-<!-- Основное содержимое страницы -->
-<div class="container mt-5">
-    <h1 style="text-align: center">Поиск товаров</h1>
-    <hr>
-    <form method="get" action="/product">
-        <div class="form-row">
-            <div class="form-group col-md-2">
-                <label for="searchCity">Город</label>
-                <select id="searchCity" class="form-control" name="searchCity">
-                    <option value="">Город не выбран</option>
-                    <option value="Москва" th:selected="${searchCity == 'Москва'}">Москва</option>
-                    <option value="Красноярск" th:selected="${searchCity == 'Красноярск'}">Красноярск</option>
-                    <option value="Казань" th:selected="${searchCity == 'Казань'}">Казань</option>
-                </select>
-            </div>
-            <div class="form-group col-md-10">
-                <label for="searchWord">Поиск по объявлениям</label>
-                <input type="text" name="searchWord" class="form-control" id="searchWord"
-                       th:value="${searchWord}">
-            </div>
-            <button style="width: 100%" type="submit" class="btn btn-dark">Поиск</button>
-        </div>
-    </form>
-    <hr>
-
-    <!-- Product Cards -->
-    <div class="card-columns">
-        <div th:each="product : ${products}">
-            <a th:href="@{/product/info/{id}(id=${product.id})}" class="product-link">
-                <div class="card text-white bg-dark my-3 product">
-                    <img th:src="@{/images/{id}(id=${product.previewImageId})}" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${product.title}"></h5>
-                        <p class="card-text" th:text="${product.price} + ' ₽'"></p>
-                    </div>
-                    <div class="card-footer" th:text="${product.city}"></div>
-                </div>
-            </a>
-        </div>
-        <div th:if="${#lists.isEmpty(products)}">
-            <h1 style="text-align: center">Не найдено</h1>
-        </div>
-    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+            crossorigin="anonymous"></script>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykX+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
-        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
-        crossorigin="anonymous"></script>
-</body>
 </html>
