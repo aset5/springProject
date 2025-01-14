@@ -26,11 +26,11 @@ import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("product")
+//@RequestMapping("product")
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping
+    @GetMapping("/")
     public String products(@RequestParam(name = "searchWord", required = false) String title, Principal principal, Model model) {
         model.addAttribute("products", productService.listProducts(title));
         model.addAttribute("user", productService.getUserByPrincipal(principal));
@@ -38,7 +38,7 @@ public class ProductController {
         return "products";
     }
 
-    @GetMapping("/info/{id}")
+    @GetMapping("/product/{id}")
     public String productInfo(@PathVariable Long id, Model model, Principal principal) {
         Product product = productService.getProductById(id);
         model.addAttribute("user", productService.getUserByPrincipal(principal));
@@ -48,7 +48,7 @@ public class ProductController {
         return "product-info";
     }
 
-    @PostMapping
+    @PostMapping("/product/create")
     public String createProduct(
             @RequestParam("file1") MultipartFile file1,
             @RequestParam("file2") MultipartFile file2,
@@ -69,7 +69,7 @@ public class ProductController {
         return "redirect:/my/products";
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/my/products")
     public String userProducts(Principal principal, Model model) {
         User user = productService.getUserByPrincipal(principal);
         model.addAttribute("user", user);
