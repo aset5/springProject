@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -20,9 +21,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+
                 .authorizeRequests()
-                .antMatchers("/", "/product/**", "/images/**", "/registration", "/user/**", "/static/**")
+                // Разрешаем доступ всем пользователям
+                .antMatchers("/", "/product/**", "/images/**", "/registration", "/user/**", "/static/**", "/login", "/error")
                 .permitAll()
+                // Для маршрута "Мои товары" разрешаем доступ только авторизованным пользователям
+                .antMatchers("/my/products").authenticated()
+                // Для панели администратора доступ только для пользователей с ролью ADMIN
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                // Для остальных маршрутов требуется авторизация
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -42,6 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(8);
+        return new BCryptPasswordEncoder(8);  // Используем BCrypt для кодирования паролей
     }
+    @Bean
+    public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
+        return new HiddenHttpMethodFilter();
+    }
+
 }

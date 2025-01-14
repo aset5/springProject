@@ -40,10 +40,9 @@
             <div class="form-group">
                 <label for="searchCity">Город</label>
                 <select id="searchCity" required name="city" class="form-control">
-                    <option value="" th:if="${#strings.isEmpty(city)}">Город не выбран</option>
-                    <option value="Москва" th:selected="${city == 'Москва'}">Москва</option>
-                    <option value="Красноярск" th:selected="${city == 'Красноярск'}">Красноярск</option>
-                    <option value="Казань" th:selected="${city == 'Казань'}">Казань</option>
+                    <option value="Москва">Москва</option>
+                    <option value="Красноярск">Красноярск</option>
+                    <option value="Казань">Казань</option>
                 </select>
             </div>
 
@@ -55,15 +54,15 @@
 
             <!-- Фотографии товара -->
             <div class="form-group">
-                <label for="file1">Первая фотография к товару</label>
+                <label for="file1">Первая фотография</label>
                 <input required type="file" class="form-control" name="file1" id="file1">
             </div>
             <div class="form-group">
-                <label for="file2">Вторая фотография к товару</label>
+                <label for="file2">Вторая фотография</label>
                 <input type="file" class="form-control" name="file2" id="file2">
             </div>
             <div class="form-group">
-                <label for="file3">Третья фотография к товару</label>
+                <label for="file3">Третья фотография</label>
                 <input type="file" class="form-control" name="file3" id="file3">
             </div>
 
@@ -71,7 +70,7 @@
             <input type="hidden" name="_csrf" th:value="${_csrf.token}">
 
             <!-- Кнопка отправки -->
-            <button type="submit" style="width: 100%" class="btn btn-dark">Добавить</button>
+            <button type="submit" class="btn btn-dark" style="width: 100%">Добавить</button>
         </form>
     </div>
 
@@ -81,8 +80,11 @@
             <a th:href="@{/product/{id}(id=${product.id})}" class="product-link">
                 <div class="card text-white bg-dark my-3 product">
                     <div class="card-top">
-                        <form th:action="@{/product/delete/{id}(id=${product.id})}" method="post">
+                        <!-- Форма для удаления товара -->
+                        <form th:action="/product/delete/{id}" method="post" style="display:inline;">
                             <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+                            <!-- Добавляем скрытое поле для имитации метода DELETE -->
+                            <input type="hidden" name="_method" value="DELETE">
                             <button type="submit" class="btn btn-danger m-3">Удалить</button>
                         </form>
                     </div>
