@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование пользователя</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 style="text-align: center">Редактирование пользователя <span th:text="${user.name}"></span></h1>
+    <hr>
+    <form action="/admin/user/edit" method="post">
+        <!-- Выводим роли пользователя -->
+        <div th:each="role : ${roles}">
+            <div>
+                <label>
+                    <input type="checkbox" th:name="${role}"
+                           th:checked="${user.roles.contains(role)}" />
+                    <span th:text="${role}"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Скрытые поля -->
+        <input type="hidden" th:value="${user.id}" name="userId">
+        <input type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+        <button type="submit" class="btn btn-dark">Сохранить</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

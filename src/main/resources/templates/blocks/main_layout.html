@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultarq.net/nz/thymeleaf/layout">
+<head th:insert="head.html"></head>
+<body>
+<div class="container fluid">
+    <div th:insert="navBar.html"></div>
+</div>
+<div class="container mt-4">
+   <div layout:fragment="siteContent"></div>
+
+<!--    <th:block th:replace="~{::content}"/>-->
+</div>
+<div th:insert="footer.html"></div>
+</body>
+</html>

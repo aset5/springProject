@@ -26,7 +26,7 @@ import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("products")
+@RequestMapping("product")
 public class ProductController {
     private final ProductService productService;
 
@@ -38,7 +38,7 @@ public class ProductController {
         return "products";
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/info/{id}")
     public String productInfo(@PathVariable Long id, Model model, Principal principal) {
         Product product = productService.getProductById(id);
         model.addAttribute("user", productService.getUserByPrincipal(principal));
@@ -49,24 +49,27 @@ public class ProductController {
     }
 
     @PostMapping
-    public String createProduct(@RequestParam("file1") MultipartFile file1,
-                                @RequestParam("file2") MultipartFile file2,
-                                @RequestParam("file3") MultipartFile file3,
-                                @RequestHeader long userId,
-                                @RequestBody @Validated ProductCreateRequestDto product,
-                                Model model) throws IOException {
+    public String createProduct(
+            @RequestParam("file1") MultipartFile file1,
+            @RequestParam("file2") MultipartFile file2,
+            @RequestParam("file3") MultipartFile file3,
+            @RequestParam long userId, // Заменено с @RequestHeader
+            @Validated @RequestBody ProductCreateRequestDto product, // Убедитесь, что фронтенд отправляет JSON
+            Model model) throws IOException {
         var createdProduct = productService.saveProduct(userId, product, file1, file2, file3);
         model.addAttribute("product", createdProduct);
         return "redirect:/my/products";
     }
 
-    @DeleteMapping("{id}")
+
+
+    @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable Long id, Principal principal) {
         productService.deleteProduct(productService.getUserByPrincipal(principal), id);
         return "redirect:/my/products";
     }
 
-    @GetMapping("{userId}")
+    @GetMapping("/user/{userId}")
     public String userProducts(Principal principal, Model model) {
         User user = productService.getUserByPrincipal(principal);
         model.addAttribute("user", user);

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultarq.net/nz/thymeleaf/layout" layout:decorate="main_layout.html">
+<div layout:fragment="siteContent">
+    <div class="container mt-5">
+        <h1 style="text-align: center">Поиск товаров</h1>
+        <hr>
+        <form method="get" action="/">
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="searchCity">Город</label>
+                    <select id="searchCity" class="form-control" name="searchCity">
+                        <option value="">Город не выбран</option>
+                        <option value="Москва" th:selected="${searchCity == 'Москва'}">Москва</option>
+                        <option value="Красноярск" th:selected="${searchCity == 'Красноярск'}">Красноярск</option>
+                        <option value="Казань" th:selected="${searchCity == 'Казань'}">Казань</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-10">
+                    <label for="searchWord">Поиск по объявлениям</label>
+                    <input type="text" name="searchWord" class="form-control" id="searchWord"
+                           th:value="${searchWord}">
+                </div>
+                <button style="width: 100%" type="submit" class="btn btn-dark">Поиск</button>
+            </div>
+        </form>
+        <hr>
+
+        <!-- Product Cards -->
+        <div class="card-columns">
+            <div th:each="product : ${products}">
+                <a th:href="@{/product/{id}(id=${product.id})}" class="product-link">
+                    <div class="card text-white bg-dark my-3 product">
+                        <img th:src="@{/images/{id}(id=${product.previewImageId})}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${product.title}"></h5>
+                            <p class="card-text" th:text="${product.price} + ' ₽'"></p>
+                        </div>
+                        <div class="card-footer" th:text="${product.city}"></div>
+                    </div>
+                </a>
+            </div>
+            <div th:if="${#lists.isEmpty(products)}">
+                <h1 style="text-align: center">Не найдено</h1>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

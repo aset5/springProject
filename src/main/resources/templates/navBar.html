@@ -1,0 +1,19 @@
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a href="/" class="navbar-brand mb-0 h1">BUYSELL</a>
+        <div th:if="${user != null}">
+            <div class="dropdown text-end">
+                <a href="/profile">
+                    <img th:src="@{/static/images/avatar.png}" alt="mdo"
+                         width="32" height="32" class="rounded-circle">
+                </a>
+            </div>
+        </div>
+        <div th:if="${user == null}">
+            <button class="btn btn-light my-2 my-sm-0" type="button"
+                    onclick="window.location.href = '/login'">
+                Войти
+            </button>
+        </div>
+    </div>
+</nav>

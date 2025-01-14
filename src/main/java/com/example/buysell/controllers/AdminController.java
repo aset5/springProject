@@ -20,7 +20,6 @@ import java.util.Map;
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class AdminController {
     private final UserService userService;
-
     @GetMapping("/admin")
     public String admin(Model model, Principal principal) {
         model.addAttribute("users", userService.list());
