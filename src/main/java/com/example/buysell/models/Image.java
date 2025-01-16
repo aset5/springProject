@@ -2,10 +2,13 @@ package com.example.buysell.models;
 
 
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "images")
+@Data
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,16 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Товар</title>
-    <link rel="stylesheet" href="/cssEski/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
-          crossorigin="anonymous">
-</head>
+<head th:insert="head.html"></head>
 <body>
-
+<div th:insert="navBar.html"></div>
 <div class="container mt-5">
     <!-- Carousel -->
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -52,6 +44,8 @@
         </a>
     </p>
 </div>
+
+<div th:insert="footer.html"></div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
