@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="IU-243.21565.193">
-    <data-source name="postgres@localhost" uuid="f620af51-0ed4-4ed5-a004-2918c0331d7d">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES">
-        <identifier-quote-string>&quot;</identifier-quote-string>
-      </database-info>
-      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+  <component name="dataSourceStorageLocal" created-in="IU-243.23654.153">
+    <data-source name="postgres@localhost " uuid="b49e6f48-6442-42af-8d9c-29296816e136">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES" />
       <secret-storage>master_key</secret-storage>
       <user-name>postgres</user-name>
       <schema-mapping />

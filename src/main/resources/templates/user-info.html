@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Информация о пользователе</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/cssEski/style.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
           crossorigin="anonymous">
@@ -33,7 +33,7 @@
                     <img th:src="@{/images/{id}(id=${product.previewImageId})}" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${product.title}"></h5>
-                        <p class="card-text" th:text="${product.price} + ' ₽'"></p>
+                        <p class="card-text" th:text="${product.price} + ' Тг'"></p>
                     </div>
                     <div class="card-footer">
                         <span th:text="${product.user.name}"></span>

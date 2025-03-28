@@ -38,7 +38,7 @@
     <hr>
 
     <!-- Product Details -->
-    <h1 style="text-align: center" th:text="${product.title} + ' | ' + ${product.price} + ' ₽'"></h1>
+    <h1 style="text-align: center" th:text="${product.title} + ' | ' + ${product.price} + ' Тг'"></h1>
     <p style="text-align: center" th:text="${product.description}"></p>
     <p style="text-align: center">Номер телефона продавца: <b th:text="${authorProduct.phoneNumber}"></b></p>
 
@@ -47,7 +47,7 @@
     <!-- Seller Info -->
     <p style="text-align: center" th:if="${authorProduct.id != null}">
         <a th:href="@{/user/{id}(id=${authorProduct.id})}">
-            <img src="/static/images/avatar.png" alt="mdo" width="32" height="32" class="rounded-circle">
+            <img src="/static/images/avatar.png" alt="Профиль" width="32" height="32" class="rounded-circle">
             <span th:text="${authorProduct.name}"></span>
         </a>
     </p>

@@ -2,70 +2,60 @@ package com.example.buysell.services;
 
 import com.example.buysell.dto.product.ProductCreateRequestDto;
 import com.example.buysell.dto.product.ProductDto;
-import com.example.buysell.mapper.product.ProductMapper;
-import com.example.buysell.models.Product;
-import com.example.buysell.models.User;
-import com.example.buysell.repositories.ProductRepository;
-import com.example.buysell.repositories.UserRepository;
-import com.example.buysell.services.image.ImageService;
-import com.example.buysell.validator.user.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class ProductService {
-    private final ProductRepository productRepository;
-    private final UserRepository userRepository;
-    private final ProductMapper productMapper;
-    private final UserValidator userValidator;
-    private final ImageService imageService;
+    private final RestTemplate restTemplate;
+    private static final String GO_API_URL = "http://localhost:8080/products";
 
-    public List<Product> listProducts(String title) {
-        if (title != null) return productRepository.findByTitle(title);
-        return productRepository.findAll();
+    public List<ProductDto> listProducts(String title) {
+        String url = (title != null) ? GO_API_URL + "?title=" + title : GO_API_URL;
+        ResponseEntity<List<ProductDto>> response = restTemplate.exchange(
+                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
+
+        return response.getBody() != null ? response.getBody() : Collections.emptyList();
     }
 
-    public ProductDto saveProduct(long userId, ProductCreateRequestDto productDto, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws IOException {
-        var user = userValidator.existsById(userId);
-        var product = productMapper.toEntity(productDto);
-        product.setUser(user);
-        product.setImages(imageService.getListImagesFromFiles(Arrays.asList(file1, file2, file3)));
-        var createdProduct = productRepository.save(product);
-        log.info("Saving new Product. product id: {}, user id {}",
-                createdProduct.getId(), createdProduct.getUser().getId());
-        return productMapper.toDto(createdProduct);
+    public ProductDto saveProduct(String jwtToken, ProductCreateRequestDto productDto) {
+        HttpHeaders headers = createAuthHeaders(jwtToken);
+        HttpEntity<ProductCreateRequestDto> request = new HttpEntity<>(productDto, headers);
+        ResponseEntity<ProductDto> response = restTemplate.exchange(
+                GO_API_URL, HttpMethod.POST, request, ProductDto.class);
+
+        return response.getBody();
     }
 
-    public User getUserByPrincipal(Principal principal) {
-        if (principal == null) return new User();
-        return userRepository.findByEmail(principal.getName());
+    public void deleteProduct(String jwtToken, Long id) {
+        String url = GO_API_URL + "/" + id;
+        HttpHeaders headers = createAuthHeaders(jwtToken);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        restTemplate.exchange(url, HttpMethod.DELETE, entity, Void.class);
+        log.info("Deleted product with id = {}", id);
     }
 
-    public void deleteProduct(User user, Long id) {
-        Product product = productRepository.findById(id)
-                .orElse(null);
-        if (product != null) {
-            if (product.getUser().getId().equals(user.getId())) {
-                productRepository.delete(product);
-                log.info("Product with id = {} was deleted", id);
-            } else {
-                log.error("User: {} haven't this product with id = {}", user.getEmail(), id);
-            }
-        } else {
-            log.error("Product with id = {} is not found", id);
-        }
+    public ProductDto getProductById(Long id) {
+        String url = GO_API_URL + "/" + id;
+        ResponseEntity<ProductDto> response = restTemplate.exchange(
+                url, HttpMethod.GET, null, ProductDto.class);
+
+        return response.getBody();
     }
 
-    public Product getProductById(Long id) {
-        return productRepository.findById(id).orElse(null);
+    private HttpHeaders createAuthHeaders(String jwtToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return headers;
     }
 }
