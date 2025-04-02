@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(8);  // Используем BCrypt для кодирования паролей
+        return new BCryptPasswordEncoder(8);
     }
     @Bean
     public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
