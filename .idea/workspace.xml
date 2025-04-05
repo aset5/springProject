@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43350ec6-72ca-4512-9bc5-d736adebca8c" name="Changes" comment="Commit Mapper" />
+    <list default="true" id="43350ec6-72ca-4512-9bc5-d736adebca8c" name="Changes" comment="Commit Mapper">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -223,7 +225,8 @@
       <workItem from="1739597138178" duration="34000" />
       <workItem from="1743181698517" duration="3505000" />
       <workItem from="1743224269216" duration="2092000" />
-      <workItem from="1743265695122" duration="9040000" />
+      <workItem from="1743265695122" duration="9528000" />
+      <workItem from="1743826313983" duration="1077000" />
     </task>
     <task id="LOCAL-00001" summary="Commit Mapper">
       <created>1736750238305</created>
