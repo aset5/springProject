@@ -3,6 +3,8 @@ package com.example.buysell.configurations;
 import com.example.buysell.services.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,36 +12,33 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 
+@Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     private final CustomUserDetailsService userDetailsService;
+    private final JwtAuthFilter jwtAuthFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-
+                .csrf().disable()
                 .authorizeRequests()
-                // Разрешаем доступ всем пользователям
-                .antMatchers("/", "/product/**", "/images/**", "/registration", "/user/**", "/static/**", "/login", "/error")
-                .permitAll()
-                // Для маршрута "Мои товары" разрешаем доступ только авторизованным пользователям
+                .antMatchers(
+                        "/", "/product/**", "/images/**",
+                        "/registration", "/user/**", "/static/**",
+                        "/login", "/error", "/api/auth/**"
+                ).permitAll()
                 .antMatchers("/my/products").authenticated()
-                // Для панели администратора доступ только для пользователей с ролью ADMIN
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                // Для остальных маршрутов требуется авторизация
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/product", true)  // Перенаправление после успешного логина
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
@@ -49,12 +48,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean(); // 👈 Обязательно для AuthController
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(8);
     }
+
     @Bean
     public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
         return new HiddenHttpMethodFilter();
     }
-
 }

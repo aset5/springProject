@@ -5,7 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="43350ec6-72ca-4512-9bc5-d736adebca8c" name="Changes" comment="Commit Mapper">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/buysell/configurations/JwtAuthFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/buysell/controllers/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/buysell/services/JwtService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/buysell/configurations/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/buysell/configurations/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/buysell/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/buysell/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/buysell/services/CustomUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/buysell/services/CustomUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -226,7 +234,8 @@
       <workItem from="1743181698517" duration="3505000" />
       <workItem from="1743224269216" duration="2092000" />
       <workItem from="1743265695122" duration="9528000" />
-      <workItem from="1743826313983" duration="1077000" />
+      <workItem from="1743826313983" duration="5588000" />
+      <workItem from="1744187703422" duration="6863000" />
     </task>
     <task id="LOCAL-00001" summary="Commit Mapper">
       <created>1736750238305</created>
@@ -315,6 +324,12 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/example/buysell/services/image/ImageServiceImpl.java</url>
           <line>13</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/buysell/configurations/SecurityConfig.java</url>
+          <line>23</line>
+          <properties field="userDetailsService" class="com.example.buysell.configurations.SecurityConfig" />
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
